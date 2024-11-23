@@ -44,12 +44,12 @@ async def webhook(request: Request):
     try:
         json_data = await request.json()
         update = types.Update.de_json(json_data)
-        bot.process_new_updates([update])
+        await bot.process_new_updates([update])
         return {
             'status': 'Success'
         }
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
 @bot.message_handler(commands=['start'])
