@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from firebase_admin import credentials, firestore
 from telebot.async_telebot import AsyncTeleBot
+import telebot
 import firebase_admin
 import os
 import json
@@ -11,12 +12,16 @@ FIREBASE_CONF = os.environ.get('FIREBASE_CONF')
 
 
 app = FastAPI()
-bot = AsyncTeleBot('7303464337:AAHaslyGlKytCJ44u3LAaQbHg18PhqHBCJM')
+bot = telebot.TeleBot(BOT_TOKEN)
 
 cred = credentials.Certificate(json.loads(FIREBASE_CONF))
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
+
+@app.on_event('startup')
+async def startup():
+    bot.infinity_polling()
 
 @app.get('/')
 def index():
