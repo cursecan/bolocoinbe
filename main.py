@@ -67,8 +67,8 @@ async def welcome(message):
     )
 
     try:
-        user_ref = await db.collection('users').document(user_id)
-        user_doc = await user_ref.get()
+        user_ref = db.collection('users').document(user_id)
+        user_doc = user_ref.get()
 
         if not user_doc.exists:
             user_data = {
@@ -84,7 +84,7 @@ async def welcome(message):
                 'miningStartDate': None
             }
             
-            await user_ref.set(user_data)
+            user_ref.set(user_data)
 
         await bot.reply_to(message, welcome_message)
     except Exception as e:
