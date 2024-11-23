@@ -22,14 +22,14 @@ db = firestore.client()
 @app.on_event('startup')
 async def start_webhook():
     print('Staring up process')
-    bot.remove_webhook()
+    await bot.remove_webhook()
 
-    bot.set_webhook(url=WEBHOOK_URL)
+    await bot.set_webhook(url=WEBHOOK_URL)
 
 
 @app.on_event('shutdown')
 async def remove_webhook():
-    bot.remove_webhook()
+    await bot.remove_webhook()
 
 
 
