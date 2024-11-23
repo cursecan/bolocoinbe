@@ -1,15 +1,15 @@
 from fastapi import FastAPI
 from firebase_admin import credentials, firestore
 from telebot.async_telebot import AsyncTeleBot
+from telebot import types
 import telebot
 import firebase_admin
 import os
 import json
 
-
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 FIREBASE_CONF = os.environ.get('FIREBASE_CONF')
-WEBHOOK_URL = 'https://bolocoinbe.vercel.app/'
+WEBHOOK_URL = 'https://bolocoinbe.vercel.app'
 
 app = FastAPI()
 bot = AsyncTeleBot(BOT_TOKEN)
