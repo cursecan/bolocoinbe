@@ -9,10 +9,10 @@ import json
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 FIREBASE_CONF = os.environ.get('FIREBASE_CONF')
-
+WEBHOOK_URL = 'https://bolocoinbe.vercel.app/'
 
 app = FastAPI()
-bot = telebot.TeleBot(BOT_TOKEN)
+bot = AsyncTeleBot(BOT_TOKEN)
 
 cred = credentials.Certificate(json.loads(FIREBASE_CONF))
 firebase_admin.initialize_app(cred)
@@ -20,8 +20,18 @@ db = firestore.client()
 
 
 @app.on_event('startup')
-async def startup():
-    bot.infinity_polling()
+async def start_webhook():
+    print('Staring up process')
+    bot.remove_webhook()
+
+    bot.set_webhook(url=WEBHOOK_URL)
+
+
+@app.on_event('shutdown')
+async def remove_webhook():
+    bot.remove_webhook()
+
+
 
 @app.get('/')
 def index():
